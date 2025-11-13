@@ -21,6 +21,21 @@ export class NavbarComponent {
   pageTitle$ = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     map((event) => event.url),
-    map((url) => routes.find((route) => `/${route.path}` == url)?.title)
+    map((url) => {
+      // 1. Intenta encontrar el título de una ruta con coincidencia exacta (ej: /fullscreen)
+      const exactMatch = routes.find(
+        (route) => `/${route.path}` === url
+      )?.title;
+
+      if (exactMatch) {
+        console.log('exactMatch: ' + exactMatch);
+        return exactMatch;
+      }
+      // 2. Si no hay coincidencia exacta, usa el título de la ruta comodín (**)
+      const wildcardRoute = routes.find((route) => route.path === '**');
+
+      // Asegúrate de que la ruta comodín exista y tenga un título definido
+      return wildcardRoute?.title ?? 'Título por Defecto';
+    })
   );
 }
