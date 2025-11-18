@@ -22,8 +22,11 @@ const myMapTilerKey = environment.maptilerKey;
 export class FullscreenMapPageComponent implements AfterViewInit {
   divElement = viewChild<ElementRef>('map');
   map = signal<Map | null>(null);
-  myZoom = signal(14);
-
+  myZoom = signal(9);
+  coordinates = signal({
+    lng: -77.0428,
+    lat: -12.0464,
+  });
   zoomEffect = effect(() => {
     if (!this.map()) return;
     this.map()?.setZoom(this.myZoom());
@@ -35,12 +38,12 @@ export class FullscreenMapPageComponent implements AfterViewInit {
     await new Promise((resolve) => setTimeout(resolve, 80));
     const element = this.divElement()!.nativeElement;
 
-    const initialState = { lng: -77.0428, lat: -12.0464, zoom: this.myZoom() };
+    const { lng, lat } = this.coordinates();
     const map = new Map({
       container: element,
       style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${myMapTilerKey}`,
-      center: [initialState.lng, initialState.lat],
-      zoom: initialState.zoom,
+      center: [lng, lat],
+      zoom: this.myZoom(),
     });
     this.mapListeners(map);
   }
@@ -51,6 +54,11 @@ export class FullscreenMapPageComponent implements AfterViewInit {
       this.myZoom.set(newZoom);
     });
 
+    map.on('moveend', () => {
+      const center = map.getCenter();
+      console.log(center);
+      this.coordinates.set(center);
+    });
     this.map.set(map);
   }
 }

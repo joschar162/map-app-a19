@@ -1,7 +1,7 @@
 <div #map></div>
 
 <section id="controls">
-  <h2 class="text-2xl font-bold text-black mb-2">
+  <h2 class="text-xl font-bold text-black mb-2">
     Zoom
     <small class="text-gray-500 font-normal">{{
       myZoom() | number : "1.0-2"
@@ -16,4 +16,9 @@
     (input)="myZoom.set(+txtZoom.value)"
     #txtZoom
   />
+  <h2 class="text-sm font-bold text-black">Coordenadas</h2>
+  <small class="text-xs text-gray-500 font-normal">
+    Latitude: {{ coordinates().lat | number : "1.4-4" }}, Longitude:
+    {{ coordinates().lng | number : "1.4-4" }}
+  </small>
 </section>
