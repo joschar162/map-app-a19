@@ -8,7 +8,12 @@ import {
 } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
-import { Map } from 'maplibre-gl';
+import {
+  FullscreenControl,
+  Map,
+  NavigationControl,
+  ScaleControl,
+} from 'maplibre-gl';
 import { DecimalPipe } from '@angular/common';
 
 const myMapTilerKey = environment.maptilerKey;
@@ -59,6 +64,14 @@ export class FullscreenMapPageComponent implements AfterViewInit {
       console.log(center);
       this.coordinates.set(center);
     });
+
+    map.on('load', () => {
+      console.log('Mapa Cargado');
+    });
+
+    map.addControl(new FullscreenControl());
+    map.addControl(new NavigationControl());
+    map.addControl(new ScaleControl());
     this.map.set(map);
   }
 }
