@@ -48,17 +48,6 @@ export class MarkersPageComponent implements AfterViewInit {
       center: [-72.9445, -14.3896], // posición inicial [lng - lat]
       zoom: 16,
     });
-
-    // const marker = new Marker({
-    //   draggable: true,
-    // })
-    //   .setLngLat([-72.9445, -14.3896])
-    //   .addTo(map);
-
-    // marker.on('dragend', (event) => {
-    //   console.log(event);
-    // });
-
     this.mapListeners(map);
   }
 

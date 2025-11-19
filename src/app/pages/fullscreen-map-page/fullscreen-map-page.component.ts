@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   signal,
   effect,
+  OnDestroy,
 } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
@@ -24,7 +25,7 @@ const myMapTilerKey = environment.maptilerKey;
   templateUrl: './fullscreen-map-page.component.html',
   styleUrl: './fullscreen-map-page.component.css',
 })
-export class FullscreenMapPageComponent implements AfterViewInit {
+export class FullscreenMapPageComponent implements AfterViewInit, OnDestroy {
   divElement = viewChild<ElementRef>('map');
   map = signal<Map | null>(null);
   myZoom = signal(9);
@@ -73,5 +74,8 @@ export class FullscreenMapPageComponent implements AfterViewInit {
     map.addControl(new NavigationControl());
     map.addControl(new ScaleControl());
     this.map.set(map);
+  }
+  ngOnDestroy(): void {
+    this.map()?.remove();
   }
 }
