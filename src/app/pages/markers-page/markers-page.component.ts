@@ -2,18 +2,12 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   signal,
   viewChild,
 } from '@angular/core';
 
-import {
-  FullscreenControl,
-  LngLatLike,
-  Map,
-  Marker,
-  NavigationControl,
-  ScaleControl,
-} from 'maplibre-gl';
+import { LngLatLike, Map, Marker } from 'maplibre-gl';
 
 import { environment } from '../../../environments/environment';
 import { MapMouseEvent } from 'maplibre-gl';
@@ -32,7 +26,7 @@ interface MyMarker {
   imports: [JsonPipe],
   templateUrl: './markers-page.component.html',
 })
-export class MarkersPageComponent implements AfterViewInit {
+export class MarkersPageComponent implements AfterViewInit, OnDestroy {
   divElement = viewChild<ElementRef>('marker');
   map = signal<Map | null>(null);
   markers = signal<MyMarker[]>([]);
@@ -110,5 +104,9 @@ export class MarkersPageComponent implements AfterViewInit {
 
     miMarker.mapTilerMarker.remove();
     this.markers.set(this.markers().filter((m) => m.id != miMarker.id));
+  }
+
+  ngOnDestroy(): void {
+    this.map()?.remove();
   }
 }
