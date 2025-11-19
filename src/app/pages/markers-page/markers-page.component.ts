@@ -111,4 +111,15 @@ export class MarkersPageComponent implements AfterViewInit {
       center: lngLat,
     });
   }
+
+  deleteMarker(miMarker: MyMarker) {
+    if (!this.map) {
+      console.log('Mapa no encontrada');
+      return;
+    }
+    const map = this.map;
+
+    miMarker.mapTilerMarker.remove();
+    this.markers.set(this.markers().filter((m) => m.id != miMarker.id));
+  }
 }

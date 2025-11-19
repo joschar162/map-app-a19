@@ -8,6 +8,7 @@
     <div
       class="form-control"
       (click)="flyToMarker(marker.mapTilerMarker.getLngLat())"
+      (dblclick)="deleteMarker(marker)"
     >
       <label class="label cursor-pointer">
         <span class="label-text text-black text-xs whitespace-normal">
