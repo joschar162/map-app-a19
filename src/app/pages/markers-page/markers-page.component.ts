@@ -18,6 +18,7 @@ import {
 import { environment } from '../../../environments/environment';
 import { MapMouseEvent } from 'maplibre-gl';
 import { v4 as uuIdV4 } from 'uuid';
+import { JsonPipe } from '@angular/common';
 
 const myMapTilerKey = environment.maptilerKey;
 
@@ -28,7 +29,7 @@ interface MyMarker {
 
 @Component({
   selector: 'app-markers-page',
-  imports: [],
+  imports: [JsonPipe],
   templateUrl: './markers-page.component.html',
 })
 export class MarkersPageComponent implements AfterViewInit {
@@ -101,5 +102,13 @@ export class MarkersPageComponent implements AfterViewInit {
     this.markers.update((markers) => [myNewMarker, ...markers]);
 
     console.log(this.markers());
+  }
+
+  flyToMarker(lngLat: LngLatLike) {
+    if (!this.map) return;
+
+    this.map()?.flyTo({
+      center: lngLat,
+    });
   }
 }
