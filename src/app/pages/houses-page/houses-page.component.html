@@ -9,8 +9,8 @@
 >
   @for (house of houses(); track house.id; let i = $index) {
   <!-- card start -->
-  <div class="card bg-base-100 w-96 shadow-xl">
-    <app-mini-map></app-mini-map>
+  <div class="card bg-base-100 shadow-xl rounded-t-md overflow-hidden">
+    <app-mini-map [lngLat]="house.lngLat"></app-mini-map>
 
     <!-- <figure>
       <img
